@@ -27,27 +27,27 @@ app.post(
 
     const { url } = c.req.valid("json");
 
-    const shortUrl = await generateShortUrl({
+    const shortUrlId = await generateShortUrl({
       longUrl: url,
     });
 
-    await redisClient.set(shortUrl, url);
+    await redisClient.set(shortUrlId, url);
 
-    return c.text(shortUrl);
+    return c.text(`http://localhost:3000/${shortUrlId}`);
   }
 );
 
 // GET
-app.get("/:shortUrl", async (c) => {
+app.get("/:code", async (c) => {
   if (!process.env.REDIS_CONNECTION_URL) {
     return c.text("REDIS_CONNECTION_URL is required", 500);
   }
 
   const redisClient = new Redis(process.env.REDIS_CONNECTION_URL);
 
-  const shortUrl = c.req.param("shortUrl");
+  const shortUrlId = c.req.param("code");
 
-  const longUrl = await redisClient.get(shortUrl);
+  const longUrl = await redisClient.get(shortUrlId);
 
   if (!longUrl) {
     return c.notFound();
