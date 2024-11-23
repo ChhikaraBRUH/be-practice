@@ -6,7 +6,9 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",
-    "hono": "^4.6.11"
+    "dotenv": "16.4.5",
+    "hono": "^4.6.11",
+    "ioredis": "^5.4.1"
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
